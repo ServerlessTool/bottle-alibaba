@@ -2,7 +2,7 @@ Type: Component
 Name: bottle
 Provider:
   - Alibaba
-Version: 0.0.2
+Version: 0.0.3
 Description: 阿里云Bottle组件，帮助您快速部署Bottle项目
 HomePage: https://www.aliyun.com/
 Tags:
