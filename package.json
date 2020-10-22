@@ -1,6 +1,6 @@
 {
   "name": "@serverless-devs/bottle-alibaba",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "Serverless Devs Tool Tornado Framework Component For Alibaba Cloud",
   "keywords": [
     "Serverless",
