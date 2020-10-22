@@ -1,6 +1,6 @@
 {
   "name": "@serverless-devs/bottle-alibaba",
-  "version": "0.0.3",
+  "version": "0.0.10",
   "description": "Serverless Devs Tool Tornado Framework Component For Alibaba Cloud",
   "keywords": [
     "Serverless",
@@ -9,7 +9,7 @@
     "Serverless-Tool",
     "Bottle"
   ],
-  "homepage": "https://www.serverlessfans.com",
+  "homepage": "https://www.serverless-devs.com",
   "author": "Serverless-Devs",
   "contributors": [
     "Anycodes"
@@ -30,7 +30,7 @@
   "dependencies": {
     "fs-extra": "^9.0.1",
     "string-format": "^2.0.0",
-    "@serverless-devs/s-framework": "^0.0.18"
+    "@serverless-devs/s-framework": "^0.0.20"
   },
   "devDependencies": {
     "@types/node": "^14.0.23",
