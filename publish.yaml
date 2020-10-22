@@ -2,7 +2,7 @@ Type: Component
 Name: bottle
 Provider:
   - Alibaba
-Version: 0.0.10
+Version: 0.0.11
 Description: 阿里云Bottle组件，帮助您快速部署Bottle项目
 HomePage: https://www.aliyun.com/
 Tags:
@@ -42,6 +42,12 @@ Properties:
           - us-west-1
           - us-east-1
           - ap-south-1
+  App:
+    Required: false
+    Default: ./
+    Description: 项目入口
+    Type:
+      - String
   Log:
     Required: false
     Description: log配置，function产生的log会写入这里配置的logstore
@@ -59,12 +65,6 @@ Properties:
             Description: loghub中的project名称
             Type:
               - String
-  App:
-    Required: false
-    Default: ./
-    Description: 项目入口
-    Type:
-      - String
   CodeUri:
     Required: false
     Default: ./
@@ -193,23 +193,6 @@ Properties:
                     Description: 设为true让function可以访问公网
                     Type:
                       - Boolean
-                  Log:
-                    Required: false
-                    Description: log配置，function产生的log会写入这里配置的logstore
-                    Type:
-                      - Enum[简单配置]:
-                          - Auto
-                      - Struct[详细配置]:
-                          LogStore:
-                            Required: false
-                            Description: loghub中的logstore名称
-                            Type:
-                              - String
-                          Project:
-                            Required: false
-                            Description: loghub中的project名称
-                            Type:
-                              - String
                   Role:
                     Required: false
                     Description: 授予函数计算所需权限的RAM role, 使用场景包含 1. 把 function产生的 log 发送到用户的 logstore 中 2. 为function 在执行中访问其它云资源生成 token
@@ -325,44 +308,6 @@ Properties:
                     Description: function的简短描述
                     Type:
                       - String
-                  CodeUri:
-                    Required: false
-                    Default: ./
-                    Description: 代码位置
-                    Type:
-                      - String[简单配置]
-                      - Struct[OSS部署]:
-                          Bucket:
-                            Required: false
-                            Description: function code包的bucket name
-                            Type:
-                              - String
-                          Object:
-                            Required: false
-                            Description: code zip包的object name
-                            Type:
-                              - String
-                      - Struct[OSS上传部署]:
-                          Bucket:
-                            Required: false
-                            Description: function code包的bucket name
-                            Type:
-                              - String
-                          Src:
-                            Required: false
-                            Description: 本地路径
-                            Type:
-                              - String
-                          Exclude:
-                            Required: false
-                            Description: 本地路径
-                            Type:
-                              - List<String>
-                          Include:
-                            Required: false
-                            Description: 本地路径
-                            Type:
-                              - List<String>
                   Handler:
                     Required: false
                     Default: index.handler
@@ -375,39 +320,12 @@ Properties:
                     Description: function的内存规格
                     Type:
                       - Number
-                  Runtime:
-                    Required: false
-                    Default: Nodejs10
-                    Description: function的内存规格
-                    Type:
-                      - String
                   Timeout:
                     Required: false
                     Default: 60
                     Description: function运行的超时时间
                     Type:
                       - Number
-                  Environment:
-                    Required: false
-                    Description: 环境变量
-                    Example: 'key: value'
-                    Type:
-                      - Struct
-                  Initializer:
-                    Required: false
-                    Description: 初始化方法
-                    Type:
-                      - Struct:
-                          Handler:
-                            Required: false
-                            Description: 初始化 function 执行的入口，具体格式和语言相关
-                            Type:
-                              - String
-                          Timeout:
-                            Required: false
-                            Description: 初始化 function 运行的超时时间
-                            Type:
-                              - String
                   Triggers:
                     Required: false
                     Description: 触发器
@@ -430,75 +348,75 @@ Properties:
                                       - Enum:
                                           - ANONYMOUS
                                           - FUNCTION
-                                    Methods:
-                                      Required: true
-                                      Description:  HTTP 触发器支持的访问方法.
-                                      Type:
-                                        - Enum:
-                                            - GET
-                                            - POST
-                                            - PUT
-                                            - DELETE
-                                            - HEAD
-                                    Domains:
-                                      Required: false
-                                      Description: 自定义域名配置。
-                                      Type:
-                                        - List<Struct>[自动配置]:
-                                            Domain:
-                                              equired: true
-                                              Description: 域名
-                                              Type:
-                                                - String
-                                        - List<Struct>[自定义配置]:
-                                            Domain:
-                                              equired: true
-                                              Description: 域名
-                                              Type:
-                                                - String
-                                            Protocol:
-                                              Required: true
-                                              Description: 协议
-                                              Type:
-                                                - List<Enum>:
-                                                    - HTTP
-                                                    - HTTPS
-                                            CertConfig:
-                                              Required: false
-                                              Description: 域名证书
-                                              Type:
-                                                - Struct:
-                                                    CertName:
-                                                      Required: false
-                                                      Description: 名称
-                                                      Type:
-                                                        - String
-                                                    PrivateKey:
-                                                      Required: false
-                                                      Description: 表示私钥
-                                                      Type:
-                                                        - String
-                                                    Certificate:
-                                                      Required: false
-                                                      Description: 表示证书
-                                                      Type:
-                                                        - String
-                                            Routes:
-                                              Required: false
-                                              Description: 路径配置。
-                                              Type:
-                                                - List<Struct>:
-                                                    Path:
-                                                      Required: false
-                                                      Description: 路径
-                                                      Type:
-                                                        - String
-                                                    Qualifier:
-                                                      Required: false
-                                                      Description: service 版本。
-                                                      Example: LATEST
-                                                      Type:
-                                                        - String
+                                  Methods:
+                                    Required: true
+                                    Description:  HTTP 触发器支持的访问方法.
+                                    Type:
+                                      - Enum:
+                                          - GET
+                                          - POST
+                                          - PUT
+                                          - DELETE
+                                          - HEAD
+                                  Domains:
+                                    Required: false
+                                    Description: 自定义域名配置。
+                                    Type:
+                                      - List<Struct>[自动配置]:
+                                          Domain:
+                                            equired: true
+                                            Description: 域名
+                                            Type:
+                                              - String
+                                      - List<Struct>[自定义配置]:
+                                          Domain:
+                                            equired: true
+                                            Description: 域名
+                                            Type:
+                                              - String
+                                          Protocol:
+                                            Required: true
+                                            Description: 协议
+                                            Type:
+                                              - List<Enum>:
+                                                  - HTTP
+                                                  - HTTPS
+                                          CertConfig:
+                                            Required: false
+                                            Description: 域名证书
+                                            Type:
+                                              - Struct:
+                                                  CertName:
+                                                    Required: false
+                                                    Description: 名称
+                                                    Type:
+                                                      - String
+                                                  PrivateKey:
+                                                    Required: false
+                                                    Description: 表示私钥
+                                                    Type:
+                                                      - String
+                                                  Certificate:
+                                                    Required: false
+                                                    Description: 表示证书
+                                                    Type:
+                                                      - String
+                                          Routes:
+                                            Required: false
+                                            Description: 路径配置。
+                                            Type:
+                                              - List<Struct>:
+                                                  Path:
+                                                    Required: false
+                                                    Description: 路径
+                                                    Type:
+                                                      - String
+                                                  Qualifier:
+                                                    Required: false
+                                                    Description: service 版本。
+                                                    Example: LATEST
+                                                    Type:
+                                                      - String
                                   Enable:
                                     Required: false
                                     Description: 表示是否启用该触发器。
